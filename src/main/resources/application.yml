@@ -8,7 +8,36 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/chemical_rfid?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false&allowMultiQueries=true
     username: root
     password: 12345678
+
+  thymeleaf:
+    mode: HTML5
+    cache: false
+    prefix: classpath:/templates/
+    encoding: UTF-8
+    suffix: .html
+    check-template-location: false
+
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 20MB
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+  mvc:
+    static-path-pattern: /static/**
+
 # 配置mybatis
 mybatis:
   mapper-locations: classpath*:/dao/**Dao.xml
   typeAliasesPackage: com.example.rfid.entity
+
+# 配置pagehelper
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+
