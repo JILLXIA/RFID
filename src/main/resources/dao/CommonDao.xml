@@ -14,5 +14,24 @@
         values (#{send_rfid_id}, #{receive_rfid_id})
     </insert>
 
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="InitMap">
+        select
+        id, send_rfid_id, receive_rfid_id
+        from chemical_rfid.init_table
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="send_rfid_id != null and send_rfid_id != ''">
+                and send_rfid_id = #{send_rfid_id}
+            </if>
+            <if test="receive_rfid_id != null and receive_rfid_id != ''">
+                and receive_rfid_id = #{receive_rfid_id}
+            </if>
+
+        </where>
+    </select>
+
 
 </mapper>

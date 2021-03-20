@@ -7,6 +7,12 @@ public class InitVO {
 
 	private String receive_rfid_id;
 
+	public InitVO(int id, String send_rfid_id, String receive_rfid_id){
+		this.id = id;
+		this.send_rfid_id = send_rfid_id;
+		this.receive_rfid_id = receive_rfid_id;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -15,19 +21,17 @@ public class InitVO {
 		this.id = id;
 	}
 
-	public String getSendRfid_id() {
-		return send_rfid_id;
+	public String getSend_rfid_id() {return send_rfid_id;}
+
+	public void setSend_rfid_id(String send_rfid_id) {
+		this.send_rfid_id = send_rfid_id;
 	}
 
-	public void setSendRfid_id(String rfid_id) {
-		this.send_rfid_id = rfid_id;
-	}
-
-	public String getReceiveRfid_id() {
+	public String getReceive_rfid_id() {
 		return receive_rfid_id;
 	}
 
-	public void setReceiveRfid_id(String rfid_id) {
-		this.receive_rfid_id = rfid_id;
+	public void setReceive_rfid_id(String receive_rfid_id) {
+		this.receive_rfid_id = receive_rfid_id;
 	}
 }

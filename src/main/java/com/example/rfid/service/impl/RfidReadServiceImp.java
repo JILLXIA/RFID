@@ -11,10 +11,14 @@ import com.example.rfid.rfidInteraction.ReaderHelper;
 import com.example.rfid.rfidUtil.StringTool;
 import com.example.rfid.service.RfidReadService;
 import com.example.rfid.vo.InitVO;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observer;
 import java.util.concurrent.TimeUnit;
 
@@ -29,6 +33,10 @@ public class RfidReadServiceImp implements RfidReadService {
 
 	String send_data = "";
 	String receive_data = "";
+
+	//RFID 连接器
+	final ReaderConnector mConnector = new ReaderConnector();
+	boolean isConnectorOpen = false;
 
 	Observer mObserver = new RXObserver() {
 		@Override
@@ -93,24 +101,30 @@ public class RfidReadServiceImp implements RfidReadService {
 		return null;
 	}
 
-	@Override
-	public void getRfidId() {
-		final ReaderConnector mConnector = new ReaderConnector();
+	public void connectRfid() {
 		String portName = "/dev/" + findTty();
 		System.out.println(portName);
 		mReaderHelper = mConnector.connectCom(portName, 115200);
+		isConnectorOpen = true;
+	}
+
+	@Override
+	public void getRfidId() {
+		if(!isConnectorOpen) {
+			connectRfid();
+		}
 		if (mReaderHelper != null) {
 			System.out.println("Connect success!");
 			try {
 				mReaderHelper.registerObserver(mObserver);
 				mReaderHelper.setRXTXListener(mListener);
 				byte[] passwd = new byte[]{0, 0, 0, 0};
-				while (true) {
+//				while (true) {
 					((RFIDReaderHelper) mReaderHelper).readTag((byte) 1, (byte) 3, (byte) 0, (byte) 8, passwd);
-					TimeUnit.SECONDS.sleep(1);
+//					TimeUnit.SECONDS.sleep(1);
 					send_data = "";
 					receive_data = "";
-				}
+//				}
 
 //				((RFIDReaderHelper) mReaderHelper).readTag((byte) 1, (byte) 3, (byte) 0, (byte) 8, passwd);
 //				init.setSendRfid_id(send_data);
@@ -128,5 +142,16 @@ public class RfidReadServiceImp implements RfidReadService {
 			mConnector.disConnect();
 		}
 		//return new InitVO();
+	}
+
+	@Override
+	public PageInfo<InitVO> findAll(Integer pageNo, Integer pageSize) {
+		PageHelper.startPage(pageNo, pageSize);
+		List<Init> rfidList_default = commonDao.queryAll();
+		List<InitVO> rfidList = new ArrayList<>();
+		for(int i = 0;i<rfidList_default.size();i++) {
+			rfidList.add(new InitVO(rfidList_default.get(i).getId(),rfidList_default.get(i).getSendRfid_id(),rfidList_default.get(i).getReceiveRfid_id()));
+		}
+		return new PageInfo<>(rfidList);
 	}
 }
