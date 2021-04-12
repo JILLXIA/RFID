@@ -23,19 +23,23 @@
         </form>
 
         <ul class="sidebar-menu" data-widget="tree">
-            <li class="treeview"><a data-pjax="true" href="/rule"> <span>读取</span>
+            <li><a data-pjax="true" href="/inventory"><span>新建标签</span></a>
+            </li>
+            <li class="treeview"><a data-pjax="true" href="/outbound"> <span>出库管理</span>
                 <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span> </a>
                 <ul class="treeview-menu">
-                    <li><a data-pjax="true" href="/rule">所有规则 </a></li>
-                    <li><a data-pjax="true" href="/rule/add">添加规则</a></li>
+                    <li><a data-pjax="true" href="/outbound">出库记录 </a></li>
+                    <li><a data-pjax="true" href="/outbound/add">新增出库</a></li>
                 </ul>
             </li>
-            <li class="treeview"><a data-pjax="true" href="/method"><span>写入</span>
+            <li class="treeview"><a data-pjax="true" href="/inbound"><span>入库管理</span>
                 <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span> </a>
                 <ul class="treeview-menu">
-                    <li><a data-pjax="true" href="/method">所有取数方法 </a></li>
-                    <li><a data-pjax="true" href="/method/add">添加取数</a></li>
+                    <li><a data-pjax="true" href="/inbound">入库记录 </a></li>
+                    <li><a data-pjax="true" href="/inbound/add">新增入库</a></li>
                 </ul>
+            </li>
+            <li><a data-pjax="true" href="/inventory"><span>盘点</span></a>
             </li>
 
         </ul>
