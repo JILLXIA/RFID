@@ -2,14 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.rfid.dao.InOutLogDao">
 
-    <resultMap type="com.example.rfid.entity.InOutLog" id="InitMap">
+    <resultMap type="com.example.rfid.entity.InOutLog" id="InboundMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="chemical_id" column="chemical_id" jdbcType="INTEGER"/>
         <result property="i_o" column="i_o" jdbcType="INTEGER"/>
         <result property="is_first_add" column="is_first_add" jdbcType="INTEGER"/>
         <result property="warehouse_uuid" column="warehouse_uuid" jdbcType="VARCHAR"/>
         <result property="shelf_no" column="shelf_no" jdbcType="INTEGER"/>
-        <result property="shelf_no" column="shelf_no" jdbcType="INTEGER"/>
+        <result property="shelf_position_n" column="shelf_position_n" jdbcType="INTEGER"/>
 
     </resultMap>
 
@@ -19,25 +19,31 @@
         values (#{chemical_id})
     </insert>
 
-    <!--通过实体作为筛选条件查询
-    没改完hhh-->
-    <select id="queryAll" resultMap="InitMap">
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryInbound" resultMap="InboundMap">
         select
-        id, send_rfid_id, receive_rfid_id
-        from chemical_rfid.init_table
+        id, chemical_id, i_o,is_first_add,warehouse_uuid,shelf_no,shelf_position_n
+        from chemical_rfid.in_out_log
         <where>
-            <if test="id != null">
-                and id = #{id}
+            <if test="i_o != null">
+                and i_o = 1
             </if>
-            <if test="send_rfid_id != null and send_rfid_id != ''">
-                and send_rfid_id = #{send_rfid_id}
-            </if>
-            <if test="receive_rfid_id != null and receive_rfid_id != ''">
-                and receive_rfid_id = #{receive_rfid_id}
-            </if>
-
         </where>
     </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryInventory" resultMap="InboundMap">
+        select
+        id, chemical_id, i_o,is_first_add,warehouse_uuid,shelf_no,shelf_position_n
+        from chemical_rfid.in_out_log
+        <where>
+            <if test="i_o != null">
+                and i_o != -1
+            </if>
+        </where>
+    </select>
+
+
 
 
 </mapper>

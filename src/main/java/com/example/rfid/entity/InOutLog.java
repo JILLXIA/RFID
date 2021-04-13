@@ -5,9 +5,13 @@ public class InOutLog {
 
 	private int chemical_id;
 
-	private int i_o;
+	private int i_o;//1:入库，0：出库，-1：未初始化
 
 	private int is_first_add;
+
+	public InOutLog(int chemical_id) {
+		this.chemical_id = chemical_id;
+	}
 
 	private String warehouse_uuid;
 

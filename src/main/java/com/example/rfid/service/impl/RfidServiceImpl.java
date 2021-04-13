@@ -1,13 +1,19 @@
 package com.example.rfid.service.impl;
 
+import com.example.rfid.dao.InOutLogDao;
+import com.example.rfid.entity.InOutLog;
 import com.example.rfid.service.RfidService;
 import com.example.rfid.utils.rfid.RfidDeviceUtil;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.io.File;
 
 @Service
 public class RfidServiceImpl implements RfidService {
+	@Resource
+	InOutLogDao inOutLogDao;
+
 	public static String findTty() {
 		String path = "/dev";		//要遍历的路径
 		File file = new File(path);		//获取其file对象
@@ -53,6 +59,20 @@ public class RfidServiceImpl implements RfidService {
 		RfidDeviceUtil.setConnector(portName, 115200);
 		//boolean success = RfidDeviceUtil.resetUser();
 		boolean success = RfidDeviceUtil.resetEPC();
+		return success==true ? "1" : "0";
+	}
+
+	@Override
+	public String writeChemicalID(String chemicalId){
+		String portName = "/dev/"+findTty();
+		RfidDeviceUtil.setConnector(portName, 115200);
+
+		boolean success = RfidDeviceUtil.writeUSER(chemicalId, 10);
+
+		if(success){
+			inOutLogDao.insert(new InOutLog(Integer.parseInt(chemicalId)));
+		}
+
 		return success==true ? "1" : "0";
 	}
 

@@ -1,13 +1,39 @@
 package com.example.rfid.vo;
 
+import com.example.rfid.entity.InOutLog;
+
 public class InOutLogVO {
 	private int id;
 
-	private int chemical_id;
+	private String chemical_id;
 
-	private int i_o;
+	private String i_o;//1:入库，0：出库，-1：未初始化
 
 	private int is_first_add;
+
+	public InOutLogVO(String chemical_id) {
+		this.chemical_id = chemical_id;
+	}
+
+	public InOutLogVO(InOutLog inOutLog) {
+		this.id = inOutLog.getId();
+		this.chemical_id = String.valueOf(inOutLog.getChemical_id());
+		switch(inOutLog.getI_o()){
+			case 0:
+				this.i_o = "出库";
+				break;
+			case 1:
+				this.i_o = "入库";
+				break;
+			case -1:
+				this.i_o = "未初始化";
+				break;
+		}
+		this.is_first_add = inOutLog.getIs_first_add();
+		this.warehouse_uuid = inOutLog.getWarehouse_uuid();
+		this.shelf_no = inOutLog.getShelf_no();
+		this.shelf_position_n = inOutLog.getShelf_position_n();
+	}
 
 	private String warehouse_uuid;
 
@@ -23,19 +49,19 @@ public class InOutLogVO {
 		this.id = id;
 	}
 
-	public int getChemical_id() {
+	public String getChemical_id() {
 		return chemical_id;
 	}
 
-	public void setChemical_id(int chemical_id) {
+	public void setChemical_id(String chemical_id) {
 		this.chemical_id = chemical_id;
 	}
 
-	public int getI_o() {
+	public String getI_o() {
 		return i_o;
 	}
 
-	public void setI_o(int i_o) {
+	public void setI_o(String i_o) {
 		this.i_o = i_o;
 	}
 
