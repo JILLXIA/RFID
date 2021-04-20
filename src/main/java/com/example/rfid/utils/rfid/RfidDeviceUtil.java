@@ -356,7 +356,9 @@ public class RfidDeviceUtil {
 			try {
 				byte[] psw = {(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00};
 				byte[] data = new byte[size];
+				//System.out.println("stringToHexString: "+stringToHexString(rfid_str));
 				data = rfid_str.getBytes();
+				//System.out.println("data: "+data);
 
 				//RXTXListenerImpl rxtxListener = new RXTXListenerImpl();
 				mReaderHelper.setRXTXListener(mListenerWriteUser);

@@ -57,7 +57,7 @@ public class CommonController {
 
 	@GetMapping("/rfid/test4")
 	public String index4(Model model) {
-		rfidService.resetRfid();
+		rfidService.resetRfid("");
 		return "rfid/rfid_test";
 	}
 

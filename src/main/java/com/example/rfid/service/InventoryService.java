@@ -12,4 +12,6 @@ public interface InventoryService {
 	 * @return
 	 */
 	PageInfo<InOutLogVO> findAll(Integer pageNo, Integer pageSize);
+
+	boolean deleteById(int id);
 }

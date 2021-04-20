@@ -4,38 +4,48 @@
 
     <resultMap type="com.example.rfid.entity.InOutLog" id="InboundMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="label_id" column="label_id" jdbcType="INTEGER"/>
         <result property="chemical_id" column="chemical_id" jdbcType="INTEGER"/>
         <result property="i_o" column="i_o" jdbcType="INTEGER"/>
-        <result property="is_first_add" column="is_first_add" jdbcType="INTEGER"/>
         <result property="warehouse_uuid" column="warehouse_uuid" jdbcType="VARCHAR"/>
         <result property="shelf_no" column="shelf_no" jdbcType="INTEGER"/>
         <result property="shelf_position_n" column="shelf_position_n" jdbcType="INTEGER"/>
-
+        <result property="create_time" column="create_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <!--新增标签表示的化学品-->
-    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into chemical_rfid.in_out_log(chemical_id)
-        values (#{chemical_id})
+    <insert id="insertInbound" keyProperty="id" useGeneratedKeys="true">
+        insert into chemical_rfid.in_out_log(label_id,i_o,warehouse_uuid,shelf_no,shelf_position_n)
+        values (#{label_id},#{i_o},#{warehouse_uuid},#{shelf_no},#{shelf_position_n})
+    </insert>
+
+    <!--新增标签表示的化学品-->
+    <insert id="insertOutbound" keyProperty="id" useGeneratedKeys="true">
+        insert into chemical_rfid.in_out_log(label_id,i_o,warehouse_uuid,shelf_no,shelf_position_n)
+        values (#{label_id},#{i_o},-1,-1,-1)
     </insert>
 
     <!--通过实体作为筛选条件查询-->
     <select id="queryInbound" resultMap="InboundMap">
         select
-        id, chemical_id, i_o,is_first_add,warehouse_uuid,shelf_no,shelf_position_n
-        from chemical_rfid.in_out_log
-        <where>
-            <if test="i_o != null">
-                and i_o = 1
-            </if>
-        </where>
+        id, label_db.label_id,chemical_id, i_o,warehouse_uuid,shelf_no,shelf_position_n,create_time
+        from chemical_rfid.in_out_log LEFT JOIN chemical_rfid.label_db ON chemical_rfid.in_out_log.label_id=chemical_rfid.label_db.label_id
+        where i_o = 1
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryOutbound" resultMap="InboundMap">
+        select
+        id, label_db.label_id,chemical_id, i_o,warehouse_uuid,shelf_no,shelf_position_n,create_time
+        from chemical_rfid.in_out_log LEFT JOIN chemical_rfid.label_db ON chemical_rfid.in_out_log.label_id=chemical_rfid.label_db.label_id
+        where i_o = 0
     </select>
 
     <!--通过实体作为筛选条件查询-->
     <select id="queryInventory" resultMap="InboundMap">
         select
-        id, chemical_id, i_o,is_first_add,warehouse_uuid,shelf_no,shelf_position_n
-        from chemical_rfid.in_out_log
+        id, label_db.label_id,chemical_id, i_o,warehouse_uuid,shelf_no,shelf_position_n,create_time
+        from chemical_rfid.in_out_log LEFT JOIN chemical_rfid.label_db ON chemical_rfid.in_out_log.label_id=chemical_rfid.label_db.label_id
         <where>
             <if test="i_o != null">
                 and i_o != -1
@@ -43,7 +53,8 @@
         </where>
     </select>
 
-
-
-
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from chemical_rfid.in_out_log where id = #{id}
+    </delete>
 </mapper>

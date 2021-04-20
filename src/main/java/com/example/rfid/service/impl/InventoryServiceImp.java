@@ -27,4 +27,9 @@ public class InventoryServiceImp implements InventoryService {
 		}
 		return new PageInfo<>(resultInOutLog);
 	}
+
+	@Override
+	public boolean deleteById(int id) {
+		return this.inOutLogDao.deleteById(id) > 0;
+	}
 }

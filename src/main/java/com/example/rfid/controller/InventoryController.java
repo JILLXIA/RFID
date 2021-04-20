@@ -29,4 +29,10 @@ public class InventoryController {
 		model.addAttribute("pageInfo", pageInfo);
 		return "inventory/inventory";
 	}
+
+	@GetMapping("/inventory/delete")
+	public String ruleAddPage(@RequestParam("id") int id) {
+		inventoryService.deleteById(id);
+		return "redirect:/inventory";
+	}
 }

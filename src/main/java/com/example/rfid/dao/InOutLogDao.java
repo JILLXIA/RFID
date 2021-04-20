@@ -7,9 +7,15 @@ import java.util.List;
 
 @Mapper
 public interface InOutLogDao {
-	int insert(InOutLog inOutLog);
+	int insertInbound(InOutLog inOutLog);
+
+	int insertOutbound(InOutLog inOutLog);
 
 	List<InOutLog> queryInbound();
 
+	List<InOutLog> queryOutbound();
+
 	List<InOutLog> queryInventory();
+
+	int deleteById(int id);
 }

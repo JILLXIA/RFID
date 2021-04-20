@@ -6,7 +6,11 @@ public interface RfidService {
 
 	String writeRfid(String rfidInfo);//-1表示没有写成功
 
-	String resetRfid();//-1表示没有重置成功
+	String resetRfid(String label_id);//-1表示没有重置成功
 
-	String writeChemicalID(String chemicalId);
+	String writeChemicalID(String label_id,String chemicalId);
+
+	String writeInboundInfo(String label_id,String chemicalId);
+
+	String writeOutboundInfo(String label_id,String chemicalId);
 }

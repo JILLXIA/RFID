@@ -12,21 +12,21 @@
             }
         </style>
         <section class="content-header">
-            <h1 style="display: inline-block;">入库管理</h1>
+            <h1 style="display: inline-block;">出库管理</h1>
             <ol class="breadcrumb">
                 <li>
                     <a data-pjax="true" href="/">
                         <i class="fa fa-dashboard"></i> 首页</a>
                 </li>
-                <li><a data-pjax="true" href="/inbound">入库管理</a></li>
-                <li class="active">入库记录</li>
+                <li><a data-pjax="true" href="/outbound">出库管理</a></li>
+                <li class="active">出库记录</li>
             </ol>
         </section>
         <section class="content container-fluid">
             <div class="row">
                 <div class="col-xs-12">
                     <div class="col-md-4 col-xs-12" style="margin-bottom: 10px;padding-left: 0;">
-                        <a class="btn btn-primary" href="/inbound/add">
+                        <a class="btn btn-primary" href="/outbound/add">
                             <i class="fa fa-plus"></i> 新增
                         </a>
                     </div>
@@ -38,20 +38,13 @@
                                 <thead>
                                 <tr>
                                     <th>标签id</th>
-                                    <th>仓库uuid</th>
-                                    <th>货架号</th>
-                                    <th>货架位置</th>
-                                    <th>入库时间</th>
+                                    <th>出库时间</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr th:each="item : ${pageInfo.list}">
                                     <td>[[${item.label_id}]]</td>
-                                    <td>[[${item.warehouse_uuid}]]</td>
-                                    <td>[[${item.shelf_no}]]</td>
-                                    <td>[[${item.shelf_position_n}]]</td>
                                     <td>[[${item.create_time}]]</td>
-
                                 </tr>
                                 </tbody>
                             </table>

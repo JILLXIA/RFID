@@ -1,7 +1,9 @@
 package com.example.rfid.service.impl;
 
 import com.example.rfid.dao.InOutLogDao;
+import com.example.rfid.dao.LabelDao;
 import com.example.rfid.entity.InOutLog;
+import com.example.rfid.entity.Label;
 import com.example.rfid.service.RfidService;
 import com.example.rfid.utils.rfid.RfidDeviceUtil;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,9 @@ import java.io.File;
 public class RfidServiceImpl implements RfidService {
 	@Resource
 	InOutLogDao inOutLogDao;
+
+	@Resource
+	LabelDao labelDao;
 
 	public static String findTty() {
 		String path = "/dev";		//要遍历的路径
@@ -54,24 +59,53 @@ public class RfidServiceImpl implements RfidService {
 	}
 
 	@Override
-	public String resetRfid() {
+	public String resetRfid(String label_id) {
 		String portName = "/dev/"+findTty();
 		RfidDeviceUtil.setConnector(portName, 115200);
-		//boolean success = RfidDeviceUtil.resetUser();
-		boolean success = RfidDeviceUtil.resetEPC();
+		boolean success = RfidDeviceUtil.resetUser();
+		//boolean success = RfidDeviceUtil.resetEPC();
+		// TODO 写一个update 方法
+		if(success){
+			//labelDao.update(new Label(Integer.parseInt(label_id),0,0));
+			labelDao.deleteById(Integer.parseInt(label_id));
+			labelDao.insert(new Label(Integer.parseInt(label_id),0,0));
+		}
+
 		return success==true ? "1" : "0";
 	}
 
 	@Override
-	public String writeChemicalID(String chemicalId){
+	public String writeChemicalID(String label_id,String chemicalId){
 		String portName = "/dev/"+findTty();
 		RfidDeviceUtil.setConnector(portName, 115200);
 
 		boolean success = RfidDeviceUtil.writeUSER(chemicalId, 10);
 
 		if(success){
-			inOutLogDao.insert(new InOutLog(Integer.parseInt(chemicalId)));
+			labelDao.insert(new Label(Integer.parseInt(label_id),0,Integer.parseInt(chemicalId)));
 		}
+
+		return success==true ? "1" : "0";
+	}
+
+	@Override
+	public String writeInboundInfo(String label_id,String chemicalId){
+		String portName = "/dev/"+findTty();
+		RfidDeviceUtil.setConnector(portName, 115200);
+		String result = chemicalId+"1";
+		boolean success = RfidDeviceUtil.writeUSER(result, 11);
+
+
+		return success==true ? "1" : "0";
+	}
+
+	@Override
+	public String writeOutboundInfo(String label_id, String chemicalId) {
+		String portName = "/dev/"+findTty();
+		RfidDeviceUtil.setConnector(portName, 115200);
+		String result = chemicalId+"0";
+		boolean success = RfidDeviceUtil.writeUSER(result, 11);
+
 
 		return success==true ? "1" : "0";
 	}

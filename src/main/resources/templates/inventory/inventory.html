@@ -30,21 +30,30 @@
                                 <thead>
                                 <tr>
                                     <th>id</th>
-                                    <th>chemicalId</th>
+                                    <th>标签id</th>
+                                    <th>化学品id</th>
                                     <th>出入库情况</th>
                                     <th>仓库uuid</th>
                                     <th>货架号</th>
                                     <th>货架位置</th>
+                                    <th>记录时间</th>
+                                    <th>操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr th:each="item : ${pageInfo.list}">
                                     <td>[[${item.id}]]</td>
+                                    <td>[[${item.label_id}]]</td>
                                     <td>[[${item.chemical_id}]]</td>
                                     <td>[[${item.i_o}]]</td>
                                     <td>[[${item.warehouse_uuid}]]</td>
                                     <td>[[${item.shelf_no}]]</td>
                                     <td>[[${item.shelf_position_n}]]</td>
+                                    <td>[[${item.create_time}]]</td>
+                                    <td>
+                                        <a th:href="'/inventory/edit?id='+${item.id}" class="btn btn-info btn-xs ">编辑</a>
+                                        <a th:href="'/inventory/delete?id='+${item.id}" class="btn btn-danger btn-xs ">删除</a>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>

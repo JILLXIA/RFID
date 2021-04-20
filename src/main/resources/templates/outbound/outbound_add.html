@@ -9,15 +9,15 @@
         </style>
         <section class="content-header">
             <h1>
-                新增入库
+                新增出库
             </h1>
             <ol class="breadcrumb">
                 <li>
                     <a data-pjax="true" href="/admin">
                         <i class="fa fa-dashboard"></i> 首页</a>
                 </li>
-                <li><a data-pjax="true" href="#">入库管理</a></li>
-                <li class="active">新增入库</li>
+                <li><a data-pjax="true" href="#">出库管理</a></li>
+                <li class="active">新增出库</li>
             </ol>
         </section>
         <!-- tab选项卡 -->
@@ -25,7 +25,7 @@
             <div class="row">
                 <div class="col-md-12">
 
-                    <form method="post" class="form-horizontal" action="/inboundPost">
+                    <form method="post" class="form-horizontal" action="/outboundPost">
                         <div class="box box-primary">
                             <div class="box-body">
 
@@ -36,31 +36,10 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group">
-                                    <label class="col-lg-2 col-sm-4 control-label">仓库uuid</label>
-                                    <div class="col-lg-4 col-sm-8">
-                                        <input type="text" class="form-control" name="warehouse_uuid">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="col-lg-2 col-sm-4 control-label">货架号</label>
-                                    <div class="col-lg-4 col-sm-8">
-                                        <input type="text" class="form-control" name="shelf_no">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="col-lg-2 col-sm-4 control-label">货架位置</label>
-                                    <div class="col-lg-4 col-sm-8">
-                                        <input type="text" class="form-control" name="shelf_position_n">
-                                    </div>
-                                </div>
-
                             </div>
 
                             <div class="box-footer">
-                                <button type="submit" class="btn btn-primary btn-sm">入库</button>
+                                <button type="submit" class="btn btn-primary btn-sm">出库</button>
                                 <a href="/rule" class="btn btn-info btn-sm">返回</a>
                             </div>
                         </div>
