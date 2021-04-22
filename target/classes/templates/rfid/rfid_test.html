@@ -1,0 +1,48 @@
+<div th:replace="module/_header" xmlns:th="http://www.w3.org/1999/xhtml"></div>
+<div class="wrapper">
+    <div th:replace="module/_sidebar"></div>
+    <div class="content-wrapper">
+        <style>
+            .form-horizontal .control-label {
+                text-align: left;
+            }
+        </style>
+        <section class="content-header">
+            <h1>
+                读取标签
+            </h1>
+        </section>
+        <!-- tab选项卡 -->
+        <section class="content container-fluid">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="col-md-4 col-xs-12" style="margin-bottom: 10px;padding-left: 0;">
+                        <a class="btn btn-primary" href="/rfid/test2">
+                            <i class="fa fa-plus"></i> 新增读取
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-xs-12">
+                    <div class="col-md-4 col-xs-12" style="margin-bottom: 10px;padding-left: 0;">
+                        <a class="btn btn-primary" href="/rfid/test3">
+                            <i class="fa fa-plus"></i> 新增写入
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-xs-12">
+                    <div class="col-md-4 col-xs-12" style="margin-bottom: 10px;padding-left: 0;">
+                        <a class="btn btn-primary" href="/rfid/test4">
+                            <i class="fa fa-plus"></i> 重置
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+</div>
+
+<div th:replace="module/_footer"></div>

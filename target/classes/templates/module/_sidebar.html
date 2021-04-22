@@ -1,0 +1,55 @@
+<aside class="main-sidebar">
+    <section class="sidebar">
+        <div class="user-panel">
+            <div class="pull-left image">
+                <img src="/static/images/default.png" class="img-circle loginUserAvatar"
+                     style="width: 45px;height: 45px;" alt="User Image">
+            </div>
+            <div class="pull-left info">
+                <p class="loginUserDisplayName"></p>
+                <a href="/admin/user/profile"><i
+                        class="fa fa-circle text-success"></i>个人资料</a>
+            </div>
+        </div>
+        <form action="/search" method="get" target="_blank" class="sidebar-form">
+            <div class="input-group">
+                <input type="text" name="keyword" class="form-control" placeholder="Search...">
+                <span class="input-group-btn">
+                  <button type="submit" name="keyword" id="search-btn" target="_blank" class="btn btn-flat">
+                    <i class="fa fa-search"></i>
+                  </button>
+                </span>
+            </div>
+        </form>
+
+        <ul class="sidebar-menu" data-widget="tree">
+            <li class="treeview"><a data-pjax="true" href="/label"> <span>标签管理</span>
+                <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span> </a>
+                <ul class="treeview-menu">
+                    <li><a data-pjax="true" href="/label/add">新建标签 </a></li>
+                    <li><a data-pjax="true" href="/label/empty">格式化标签</a></li>
+                    <li><a data-pjax="true" href="/label">标签列表</a></li>
+                </ul>
+            </li>
+
+
+            <li class="treeview"><a data-pjax="true" href="/outbound"> <span>出库管理</span>
+                <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span> </a>
+                <ul class="treeview-menu">
+                    <li><a data-pjax="true" href="/outbound">出库记录 </a></li>
+                    <li><a data-pjax="true" href="/outbound/add">新增出库</a></li>
+                </ul>
+            </li>
+            <li class="treeview"><a data-pjax="true" href="/inbound"><span>入库管理</span>
+                <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span> </a>
+                <ul class="treeview-menu">
+                    <li><a data-pjax="true" href="/inbound">入库记录 </a></li>
+                    <li><a data-pjax="true" href="/inbound/add">新增入库</a></li>
+                </ul>
+            </li>
+            <li><a data-pjax="true" href="/inventory"><span>盘点</span></a>
+            </li>
+
+        </ul>
+    </section>
+</aside>

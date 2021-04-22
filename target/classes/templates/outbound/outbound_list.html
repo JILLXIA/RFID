@@ -1,0 +1,90 @@
+<div th:replace="module/_header"></div>
+
+<div class="wrapper">
+    <div th:replace="module/_sidebar"></div>
+    <div class="content-wrapper">
+        <style type="text/css" rel="stylesheet">
+            .role-ul > li {
+                list-style: none;
+                float: left;
+                margin: 0;
+                padding-bottom: 10px
+            }
+        </style>
+        <section class="content-header">
+            <h1 style="display: inline-block;">出库管理</h1>
+            <ol class="breadcrumb">
+                <li>
+                    <a data-pjax="true" href="/">
+                        <i class="fa fa-dashboard"></i> 首页</a>
+                </li>
+                <li><a data-pjax="true" href="/outbound">出库管理</a></li>
+                <li class="active">出库记录</li>
+            </ol>
+        </section>
+        <section class="content container-fluid">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="col-md-4 col-xs-12" style="margin-bottom: 10px;padding-left: 0;">
+                        <a class="btn btn-primary" href="/outbound/add">
+                            <i class="fa fa-plus"></i> 新增
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="box box-primary">
+                        <div class="box-body table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th>标签id</th>
+                                    <th>出库时间</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="item : ${pageInfo.list}">
+                                    <td>[[${item.label_id}]]</td>
+                                    <td>[[${item.create_time}]]</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="box-footer clearfix">
+                            <div class="no-margin pull-left">
+                                第 [[${pageInfo.pageNum}]] / [[${pageInfo.pages}]] 页
+                            </div>
+                            <ul class="pagination no-margin pull-right">
+                                <li><a data-pjax="true" th:classappend="${pageInfo.pageNum == 1 ? 'disabled' : ''}"
+                                       class="btn btn-sm" href="/rule">
+                                    首页
+                                </a>
+                                </li>
+                                <li><a data-pjax="true" class="btn btn-sm"
+                                       th:classappend="${pageInfo.pageNum == 1 ? 'disabled' : ''}"
+                                       th:href="'/rule?pageNo='+${pageInfo.pageNum-1}">
+                                    上一页
+                                </a>
+                                </li>
+                                <li><a data-pjax="true" class="btn btn-sm"
+                                       th:classappend="${pageInfo.pageNum == pageInfo.pages ? 'disabled' : ''}"
+                                       th:href="'/rule?pageNo='+${pageInfo.pageNum+1}">
+                                    下一页
+                                </a>
+                                </li>
+                                <li><a data-pjax="true" class="btn btn-sm"
+                                       th:classappend="${pageInfo.pageNum == pageInfo.pages ? 'disabled' : ''}"
+                                       th:href="'/rule?pageNo='+${pageInfo.pages}">
+                                    尾页
+                                </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</div>
+<div th:replace="module/_footer"></div>
+

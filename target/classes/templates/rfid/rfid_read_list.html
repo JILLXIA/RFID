@@ -1,0 +1,91 @@
+<div th:replace="module/_header" xmlns:th="http://www.w3.org/1999/xhtml"></div>
+
+<div class="wrapper">
+    <div th:replace="module/_sidebar"></div>
+    <div class="content-wrapper">
+        <style type="text/css" rel="stylesheet">
+            .role-ul > li {
+                list-style: none;
+                float: left;
+                margin: 0;
+                padding-bottom: 10px
+            }
+        </style>
+        <section class="content-header">
+            <h1 style="display: inline-block;">RFID读写管理</h1>
+            <ol class="breadcrumb">
+                <li>
+                    <a data-pjax="true" href="/">
+                        <i class="fa fa-dashboard"></i> 首页</a>
+                </li>
+                <li><a data-pjax="true" href="/user">RFID读写管理</a></li>
+            </ol>
+        </section>
+        <section class="content container-fluid">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="col-md-4 col-xs-12" style="margin-bottom: 10px;padding-left: 0;">
+                        <a class="btn btn-primary" href="/rfid/read">
+                            <i class="fa fa-plus"></i> 新增读取
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="box box-primary">
+                        <div class="box-body table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>SendData</th>
+                                    <th>ReceiveData</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="item : ${pageInfo.list}">
+                                    <td>[[${item.id}]]</td>
+                                    <td>[[${item.send_rfid_id}]]</td>
+                                    <td>[[${item.receive_rfid_id}]]</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="box-footer clearfix">
+                            <div class="no-margin pull-left">
+                                第 [[${pageInfo.pageNum}]] / [[${pageInfo.pages}]] 页
+                            </div>
+                            <ul class="pagination no-margin pull-right">
+                                <li><a data-pjax="true" th:classappend="${pageInfo.pageNum == 1 ? 'disabled' : ''}"
+                                       class="btn btn-sm" href="/user">
+                                    首页
+                                </a>
+                                </li>
+                                <li><a data-pjax="true" class="btn btn-sm"
+                                       th:classappend="${pageInfo.pageNum == 1 ? 'disabled' : ''}"
+                                       th:href="'/user?pageNo='+${pageInfo.pageNum-1}">
+                                    上一页
+                                </a>
+                                </li>
+                                <li><a data-pjax="true" class="btn btn-sm"
+                                       th:classappend="${pageInfo.pageNum == pageInfo.pages ? 'disabled' : ''}"
+                                       th:href="'/user?pageNo='+${pageInfo.pageNum+1}">
+                                    下一页
+                                </a>
+                                </li>
+                                <li><a data-pjax="true" class="btn btn-sm"
+                                       th:classappend="${pageInfo.pageNum == pageInfo.pages ? 'disabled' : ''}"
+                                       th:href="'/user?pageNo='+${pageInfo.pages}">
+                                    尾页
+                                </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</div>
+<div th:replace="module/_footer"></div>
+
