@@ -42,6 +42,8 @@ public class RfidServiceImpl implements RfidService {
 		return dataUSER;
 	}
 
+
+
 	@Override
 	public String writeRfid(String rfid) {
 		String portName = "/dev/"+findTty();
