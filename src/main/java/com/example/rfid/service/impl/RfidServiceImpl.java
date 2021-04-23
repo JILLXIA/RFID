@@ -42,7 +42,12 @@ public class RfidServiceImpl implements RfidService {
 		return dataUSER;
 	}
 
+	public int getChemicalIdFromUser(String dataUSER){
+		String[] user = dataUSER.split(" ");
+		int head = 8;
 
+		return 0;
+	}
 
 	@Override
 	public String writeRfid(String rfid) {
