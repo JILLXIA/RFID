@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.concurrent.Callable;
+
 @DS("slave_1")
 @RestController
 public class UUIDController {
@@ -29,7 +32,15 @@ public class UUIDController {
     }
 
     @RequestMapping(value = "/getCarrierUUID",method = RequestMethod.GET)
-    public String getCarrierUUID(@RequestParam int id){
-        return chemicalRepository.findChemicalByChemicalID(id).getChemicalUUID();
+    public Callable<String> getCarrierUUID(@RequestParam int id){
+
+        return new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+//                Thread.sleep(8000); //this will cause a timeout
+                return "foobar";
+            }
+        };
+
     }
 }

@@ -57,6 +57,22 @@ public class NewLabelController {
 		return "redirect:/label";
 	}
 
+	@GetMapping("/writeChemicalID2RFID")
+	public String writeChemicalID2RFID(
+						@RequestParam("chemicalID") int chemicalID){
+		String chemical_id = chemicalID+"";
+		String res = rfidService.writeChemicalID(fill_id(chemical_id));
+		return res.equals("1")?"success":"failure";
+	}
+
+	@GetMapping("/writeCarrierID2RFID")
+	public String writeCarrierID2RFID(
+			@RequestParam("chemicalID") int carrierID){
+		String carrier_id = carrierID+"";
+		String res = rfidService.writeChemicalID(fill_id(carrier_id));
+		return res.equals("1")?"success":"failure";
+	}
+
 	@PostMapping("/label/emptyLabel")
 	public String emptyLabel(@RequestParam("label_id") String label_id){
 		rfidService.resetRfid(label_id);

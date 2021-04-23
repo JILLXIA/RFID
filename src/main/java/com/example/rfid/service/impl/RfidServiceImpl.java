@@ -6,11 +6,13 @@ import com.example.rfid.entity.InOutLog;
 import com.example.rfid.entity.Label;
 import com.example.rfid.service.RfidService;
 import com.example.rfid.utils.rfid.RfidDeviceUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.File;
 
+@Slf4j
 @Service
 public class RfidServiceImpl implements RfidService {
 	@Resource
@@ -84,6 +86,20 @@ public class RfidServiceImpl implements RfidService {
 		if(success){
 			labelDao.insert(new Label(Integer.parseInt(label_id),0,Integer.parseInt(chemicalId)));
 		}
+
+		return success==true ? "1" : "0";
+	}
+
+	@Override
+	public String writeChemicalID(String chemicalId) {
+		String portName = "/dev/"+findTty();
+		RfidDeviceUtil.setConnector(portName, 115200);
+
+		boolean success = RfidDeviceUtil.writeUSER(chemicalId, 10);
+		log.info(success?"fail to ":"succeed to "+"write id:"+chemicalId+" to rfid.");
+//		if(success){
+//			labelDao.insert(new Label(0,0,Integer.parseInt(chemicalId)));
+//		}
 
 		return success==true ? "1" : "0";
 	}

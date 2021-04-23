@@ -10,6 +10,8 @@ public interface RfidService {
 
 	String writeChemicalID(String label_id,String chemicalId);
 
+	String writeChemicalID(String chemicalId);
+
 	String writeInboundInfo(String label_id,String chemicalId);
 
 	String writeOutboundInfo(String label_id,String chemicalId);
