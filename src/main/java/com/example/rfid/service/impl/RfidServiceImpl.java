@@ -38,8 +38,27 @@ public class RfidServiceImpl implements RfidService {
 		RfidDeviceUtil.setConnector(portName, 115200);
 		String dataUSER = RfidDeviceUtil.readUSER();
 		RfidDeviceUtil.resetReadUser();
+		String dataEPC = RfidDeviceUtil.readEPC();
+		RfidDeviceUtil.resetReadEPC();
 		System.out.println("dataUSER: "+dataUSER);
+		System.out.println("dataEPC: "+dataEPC);
 		return dataUSER;
+	}
+
+	@Override
+	public int readChemicalId(){
+		String portName = "/dev/"+findTty();
+		RfidDeviceUtil.setConnector(portName, 115200);
+		String dataEPC = RfidDeviceUtil.readEPC();
+		RfidDeviceUtil.resetReadEPC();
+
+		String[] dataArr = dataEPC.trim().split(" ");
+		StringBuffer result = new StringBuffer();
+		for(int i = 9;i<19;i++){
+			result.append(String.valueOf(Integer.parseInt(dataArr[i])-30));
+		}
+		System.out.println("chemicalId: "+Integer.parseInt(result.toString()));
+		return Integer.parseInt(result.toString());
 	}
 
 	public int getChemicalIdFromUser(String dataUSER){
@@ -67,18 +86,34 @@ public class RfidServiceImpl implements RfidService {
 
 	@Override
 	public String resetRfid(String label_id) {
+		resetEmptyEPC();
+		resetEmptyUSER();
+		// TODO 写一个update 方法
+
+			//labelDao.update(new Label(Integer.parseInt(label_id),0,0));
+		labelDao.deleteById(Integer.parseInt(label_id));
+		labelDao.insert(new Label(Integer.parseInt(label_id),0,0));
+		return null;
+	}
+
+	@Override
+	public String resetEmptyEPC(){
 		String portName = "/dev/"+findTty();
 		RfidDeviceUtil.setConnector(portName, 115200);
-		boolean success = RfidDeviceUtil.resetUser();
-		//boolean success = RfidDeviceUtil.resetEPC();
-		// TODO 写一个update 方法
-		if(success){
-			//labelDao.update(new Label(Integer.parseInt(label_id),0,0));
-			labelDao.deleteById(Integer.parseInt(label_id));
-			labelDao.insert(new Label(Integer.parseInt(label_id),0,0));
-		}
+		//boolean success1 = RfidDeviceUtil.resetUser();
+		boolean success2 = RfidDeviceUtil.resetEPC();
 
-		return success==true ? "1" : "0";
+		return success2==true ? "1" : "0";
+	}
+
+	@Override
+	public String resetEmptyUSER(){
+		String portName = "/dev/"+findTty();
+		RfidDeviceUtil.setConnector(portName, 115200);
+		boolean success1 = RfidDeviceUtil.resetUser();
+		//boolean success2 = RfidDeviceUtil.resetEPC();
+
+		return success1==true ? "1" : "0";
 	}
 
 	@Override
@@ -86,7 +121,7 @@ public class RfidServiceImpl implements RfidService {
 		String portName = "/dev/"+findTty();
 		RfidDeviceUtil.setConnector(portName, 115200);
 
-		boolean success = RfidDeviceUtil.writeUSER(chemicalId, 10);
+		boolean success = RfidDeviceUtil.writeEPC(chemicalId, 10);
 
 		if(success){
 			labelDao.insert(new Label(Integer.parseInt(label_id),0,Integer.parseInt(chemicalId)));
@@ -99,8 +134,8 @@ public class RfidServiceImpl implements RfidService {
 	public String writeInboundInfo(String label_id,String chemicalId){
 		String portName = "/dev/"+findTty();
 		RfidDeviceUtil.setConnector(portName, 115200);
-		String result = chemicalId+"1";
-		boolean success = RfidDeviceUtil.writeUSER(result, 11);
+		String result = "1";
+		boolean success = RfidDeviceUtil.writeUSER(result, 1);
 
 
 		return success==true ? "1" : "0";
@@ -110,8 +145,8 @@ public class RfidServiceImpl implements RfidService {
 	public String writeOutboundInfo(String label_id, String chemicalId) {
 		String portName = "/dev/"+findTty();
 		RfidDeviceUtil.setConnector(portName, 115200);
-		String result = chemicalId+"0";
-		boolean success = RfidDeviceUtil.writeUSER(result, 11);
+		String result = "0";
+		boolean success = RfidDeviceUtil.writeUSER(result, 1);
 
 
 		return success==true ? "1" : "0";

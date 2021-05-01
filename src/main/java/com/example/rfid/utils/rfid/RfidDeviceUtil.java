@@ -393,7 +393,7 @@ public class RfidDeviceUtil {
 			mReaderHelper.setRXTXListener(mListenerresetUser);
 			try {
 				byte[] psw = {(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00};
-				byte[] data = new byte[32];
+				byte[] data = new byte[4];
 				Arrays.fill(data,(byte)0x00);
 				result = ((RFIDReaderHelper) mReaderHelper).writeTag((byte) 0xff, psw, (byte) 0x03, (byte) 0x00, int2ByteArray(data.length), data) == 0;
 
@@ -413,25 +413,33 @@ public class RfidDeviceUtil {
 	}
 
 	public static boolean resetEPC() {
-		boolean result = false;
+
 		if (mReaderHelper != null) {
-			System.out.println("Reset Connect success!");
-			mReaderHelper.setRXTXListener(mListenerresetEPC);
+			System.out.println("Write Connect success!");
 			try {
 				byte[] psw = {(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00};
-				byte[] data = new byte[12];
+				byte[] data = new byte[10];
 				Arrays.fill(data,(byte)0x00);
-				result = ((RFIDReaderHelper) mReaderHelper).writeTag((byte) 0xff, psw, (byte) 0x01, (byte) 0x02, int2ByteArray(data.length), data) == 0;
+
+				//RXTXListenerImpl rxtxListener = new RXTXListenerImpl();
+				mReaderHelper.setRXTXListener(mListenerresetEPC);
+
+				System.out.println(Arrays.toString(data));
+
+				boolean success = ((RFIDReaderHelper) mReaderHelper).writeTag((byte) 0xff, psw, (byte) 0x01, (byte) 0x02, int2ByteArray(data.length), data) == 0;
+				Thread.currentThread().sleep(2000);
+				System.out.println("isResetSuccessEPC:" + success);
+				return success;
 
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
+				return false;
 			}
 		} else {
-			System.out.println("Reset Connect faild!");
+			System.out.println("Write Connect faild!");
 			mConnector.disConnect();
+			return false;
 		}
-		return result;
 	}
 
 	public static void resetResetStringEPC(){

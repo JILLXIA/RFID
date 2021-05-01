@@ -42,7 +42,8 @@ public class CommonController {
 
 	@GetMapping("/rfid/test2")
 	public String index2(Model model) {
-		rfidService.readRfid();
+		//rfidService.readRfid();
+		rfidService.readChemicalId();
 		return "rfid/rfid_test";
 	}
 
@@ -57,7 +58,8 @@ public class CommonController {
 
 	@GetMapping("/rfid/test4")
 	public String index4(Model model) {
-		rfidService.resetRfid("");
+		rfidService.resetEmptyEPC();
+		rfidService.resetEmptyUSER();
 		return "rfid/rfid_test";
 	}
 
