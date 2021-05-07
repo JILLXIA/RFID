@@ -314,6 +314,7 @@ public class RfidDeviceUtil {
 				//RXTXListenerImpl rxtxListener = new RXTXListenerImpl();
 				mReaderHelper.setRXTXListener(mListenerWriteEPC);
 
+				byte sizeByte = int2ByteArray(size);
 				System.out.println(Arrays.toString(data));
 
 				boolean success = ((RFIDReaderHelper) mReaderHelper).writeTag((byte) 0xff, psw, (byte) 0x01, (byte) 0x02, int2ByteArray(size), data) == 0;

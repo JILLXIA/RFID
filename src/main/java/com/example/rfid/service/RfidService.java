@@ -1,12 +1,16 @@
 package com.example.rfid.service;
 
+import com.example.rfid.utils.rfid.NoRfidReadException;
+
 public interface RfidService {
 
 	String readRfid();//-1表示没有读成功
 
-	int readChemicalId();
+	int readChemicalId() throws NoRfidReadException;
 
-	boolean writeChemicalIdNew(String chemicalId);
+	int readCarrierId() throws NoRfidReadException;
+
+	boolean writeChemicalIdNew(String chemicalId) throws NoRfidReadException;
 
 	String writeRfid(String rfidInfo);//-1表示没有写成功
 

@@ -1,12 +1,21 @@
 package com.example.rfid.service.impl;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.example.rfid.dao.InOutLogDao;
 import com.example.rfid.dao.LabelDao;
+import com.example.rfid.entity.Carrier;
+import com.example.rfid.entity.Chemical;
 import com.example.rfid.entity.InOutLog;
 import com.example.rfid.entity.Label;
+import com.example.rfid.jpaDAO.CarrierRepository;
+import com.example.rfid.jpaDAO.ChemicalRepository;
 import com.example.rfid.service.RfidService;
+import com.example.rfid.service.UUIDService;
+import com.example.rfid.utils.rfid.NoRfidReadException;
 import com.example.rfid.utils.rfid.RfidDeviceUtil;
+import com.example.rfid.websocket.UUIDServer;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -20,6 +29,13 @@ public class RfidServiceImpl implements RfidService {
 
 	@Resource
 	LabelDao labelDao;
+
+	@Autowired
+	UUIDServer uuidServer;
+	@Autowired
+	ChemicalRepository chemicalRepository;
+	@Autowired
+	CarrierRepository carrierRepository;
 
 	public static String findTty() {
 		String path = "/dev";		//要遍历的路径
@@ -48,27 +64,55 @@ public class RfidServiceImpl implements RfidService {
 	}
 
 	@Override
-	public int readChemicalId(){
-		String portName = "/dev/"+findTty();
+	public int readChemicalId() throws NoRfidReadException {
+		String portName = "COM7";
 		RfidDeviceUtil.setConnector(portName, 115200);
 		String dataEPC = RfidDeviceUtil.readEPC();
 		RfidDeviceUtil.resetReadEPC();
 
 		String[] dataArr = dataEPC.trim().split(" ");
+		if(dataArr.length==6){
+			throw new NoRfidReadException();
+		}
 		StringBuffer result = new StringBuffer();
 		for(int i = 9;i<19;i++){
-			result.append(String.valueOf(Integer.parseInt(dataArr[i])-30));
+			result.append((Integer.parseInt(dataArr[i])-30));
 		}
 		System.out.println("chemicalId: "+Integer.parseInt(result.toString()));
+//        Chemical chemical = chemicalRepository.findChemicalByChemicalID( Integer.parseInt(result.toString()));
+//		uuidServer.sendInfo(chemical.getChemicalUUID());
 		return Integer.parseInt(result.toString());
 	}
 
 	@Override
-	public boolean writeChemicalIdNew(String chemicalId) {
-		String portName = "/dev/"+findTty();
+	public int readCarrierId() throws NoRfidReadException {
+		String portName = "COM7";
 		RfidDeviceUtil.setConnector(portName, 115200);
+		String dataEPC = RfidDeviceUtil.readEPC();
+		RfidDeviceUtil.resetReadEPC();
 
-		boolean success = RfidDeviceUtil.writeEPC(chemicalId, 10);
+		String[] dataArr = dataEPC.trim().split(" ");
+		if(dataArr.length==6){
+			throw new NoRfidReadException();
+		}
+		StringBuffer result = new StringBuffer();
+		for(int i = 9;i<19;i++){
+			result.append((Integer.parseInt(dataArr[i])-30));
+		}
+		System.out.println("carrierID: "+Integer.parseInt(result.toString()));
+//		Carrier carrier =carrierRepository.findCarrierByCarrierID ( Integer.parseInt(result.toString()));
+//		uuidServer.sendInfo(carrier.getCarrierUUID());
+		return Integer.parseInt(result.toString());
+	}
+
+	@Override
+	public boolean writeChemicalIdNew(String chemicalId) throws NoRfidReadException {
+		readChemicalId();
+		System.out.println(chemicalId);
+		String portName = "COM7";
+		byte[] bytes = chemicalId.getBytes();
+		RfidDeviceUtil.setConnector(portName, 115200);
+		boolean success = RfidDeviceUtil.writeEPC(fill_id(chemicalId), 10);
 		return success==true;
 	}
 
@@ -132,7 +176,7 @@ public class RfidServiceImpl implements RfidService {
 		String portName = "/dev/"+findTty();
 		RfidDeviceUtil.setConnector(portName, 115200);
 
-		boolean success = RfidDeviceUtil.writeEPC(chemicalId, 10);
+		boolean success = RfidDeviceUtil.writeEPC(fill_id(chemicalId), 10);
 
 		if(success){
 			labelDao.insert(new Label(Integer.parseInt(label_id),0,Integer.parseInt(chemicalId)));
@@ -176,6 +220,16 @@ public class RfidServiceImpl implements RfidService {
 
 		return success==true ? "1" : "0";
 	}
+
+    public static String fill_id(String id){
+        if(id.length()==10){
+            return id;
+        }
+        while(id.length()!=10){
+            id = "0"+id;
+        }
+        return id;
+    }
 
 }
 
