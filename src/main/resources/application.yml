@@ -9,9 +9,9 @@ spring:
       datasource:
         master:
           username: fsm
-            password: Nju123456
-            driver-class-name: com.mysql.jdbc.Driver
-            url: jdbc:mysql://rm-uf664b66p5k7i4i7gno.mysql.rds.aliyuncs.com:3306/chemical_qr_code?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+          password: Nju123456
+          driver-class-name: com.mysql.jdbc.Driver
+          url: jdbc:mysql://rm-uf664b66p5k7i4i7gno.mysql.rds.aliyuncs.com:3306/chemical_qr_code?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
         slave_1:
           username: fsm
           password: Nju123456

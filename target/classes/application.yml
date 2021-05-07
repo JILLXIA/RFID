@@ -8,10 +8,10 @@ spring:
       primary: master #设置默认的数据源或者数据源组,默认值即为master
       datasource:
         master:
+          username: fsm
+          password: Nju123456
           driver-class-name: com.mysql.jdbc.Driver
-          url: jdbc:mysql://127.0.0.1:3306/chemical_rfid?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false&allowMultiQueries=true
-          username: root
-          password: 123456
+          url: jdbc:mysql://rm-uf664b66p5k7i4i7gno.mysql.rds.aliyuncs.com:3306/chemical_qr_code?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
         slave_1:
           username: fsm
           password: Nju123456
