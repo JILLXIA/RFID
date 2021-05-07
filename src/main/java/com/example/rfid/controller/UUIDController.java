@@ -9,6 +9,8 @@ import com.example.rfid.service.RfidService;
 import com.example.rfid.utils.rfid.NoRfidReadException;
 import com.example.rfid.vo.ResponseVO;
 import com.example.rfid.websocket.UUIDServer;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.Callable;
-
+@Tag(name = "productionLine",description = "生产与生产线相关api")
 @DS("slave_1")
 @RestController
 public class UUIDController {
@@ -30,9 +32,9 @@ public class UUIDController {
     RfidService rfidService;
 
 
-
+    @Operation(summary = "读rfid返回化学品uuid，若没读到rfid会返回错误")
     @RequestMapping(value = "/readChemicalUUIDFromRfid",method = RequestMethod.GET)
-    public ResponseVO getChemicalUUID(){
+    public ResponseVO readChemicalUUIDFromRfid(){
         int id = 0;
         try{
             id =  rfidService.readChemicalId();
@@ -53,9 +55,9 @@ public class UUIDController {
             return  ResponseVO.buildFailure("Reading rfid failed");
         }
     }
-
-    @RequestMapping(value = "/writeChemicalIDToRfid",method = RequestMethod.GET)
-    public ResponseVO writeChemicalIDToRfid(@RequestParam int id){
+    @Operation(summary = "将id写入rfid,若没写到则会返回错误")
+    @RequestMapping(value = "/writeIDToRfid",method = RequestMethod.GET)
+    public ResponseVO writeIDToRfid(@RequestParam int id){
         try{
             boolean res = rfidService.writeChemicalIdNew(id+"");
             if(res){
@@ -72,7 +74,7 @@ public class UUIDController {
 
 
     }
-
+    @Operation(summary = "读rfid返回载体uuid，若没读到rfid会返回错误")
     @RequestMapping(value = "/readCarrierUUIDFromRfid",method = RequestMethod.GET)
     public ResponseVO readCarrierUUIDFromRfid() {
         int id = 0;

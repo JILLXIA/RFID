@@ -40,12 +40,12 @@ public class CommonController {
 		return "rfid/rfid_test";
 	}
 
-	@GetMapping("/rfid/test2")
-	public String index2(Model model) {
-		//rfidService.readRfid();
-		rfidService.readChemicalId();
-		return "rfid/rfid_test";
-	}
+//	@GetMapping("/rfid/test2")
+//	public String index2(Model model) {
+//		//rfidService.readRfid();
+//		rfidService.readChemicalId();
+//		return "rfid/rfid_test";
+//	}
 
 	@GetMapping("/rfid/test3")
 	public String index3(Model model) {
