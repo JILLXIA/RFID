@@ -63,6 +63,15 @@ public class RfidServiceImpl implements RfidService {
 		return Integer.parseInt(result.toString());
 	}
 
+	@Override
+	public boolean writeChemicalIdNew(String chemicalId) {
+		String portName = "/dev/"+findTty();
+		RfidDeviceUtil.setConnector(portName, 115200);
+
+		boolean success = RfidDeviceUtil.writeEPC(chemicalId, 10);
+		return success==true;
+	}
+
 	public int getChemicalIdFromUser(String dataUSER){
 		String[] user = dataUSER.split(" ");
 		int head = 8;

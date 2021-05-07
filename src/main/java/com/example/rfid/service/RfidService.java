@@ -6,6 +6,8 @@ public interface RfidService {
 
 	int readChemicalId();
 
+	boolean writeChemicalIdNew(String chemicalId);
+
 	String writeRfid(String rfidInfo);//-1表示没有写成功
 
 	String resetRfid(String label_id);//-1表示没有重置成功
