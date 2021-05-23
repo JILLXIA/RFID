@@ -107,11 +107,22 @@ public class RfidServiceImpl implements RfidService {
 
 	@Override
 	public boolean writeChemicalIdNew(String chemicalId) throws NoRfidReadException {
-		readChemicalId();
+
 		System.out.println(chemicalId);
 		String portName = "COM7";
 		byte[] bytes = chemicalId.getBytes();
 		RfidDeviceUtil.setConnector(portName, 115200);
+
+
+
+		String dataEPC = RfidDeviceUtil.readEPC();
+		RfidDeviceUtil.resetReadEPC();
+		String[] dataArr = dataEPC.trim().split(" ");
+		if(dataArr.length==6){
+			throw new NoRfidReadException();
+		}
+
+
 		boolean success = RfidDeviceUtil.writeEPC(fill_id(chemicalId), 10);
 		return success==true;
 	}

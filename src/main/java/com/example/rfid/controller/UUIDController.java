@@ -12,13 +12,11 @@ import com.example.rfid.websocket.UUIDServer;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.Callable;
-@Tag(name = "productionLine",description = "生产与生产线相关api")
+@CrossOrigin("https://www.svecri.cn")
+@RequestMapping(value = "/productionLine")
 @DS("slave_1")
 @RestController
 public class UUIDController {
